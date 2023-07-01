@@ -10,11 +10,14 @@ pygame.display.set_caption("ARCHERY GAME!!! ")
 WIDTH, HEIGHT = 800, 600
 
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-
+TOP_BAR_HEIGHT = 50
 TARGET_LOC = 30
 TARGET_EVENT = pygame.USEREVENT
 TARGET_INCREMENT = 400
+
 clock = pygame.time.Clock()
+
+LABEL_FONT = pygame.font.SysFont('monospace', 20)
 
 def draw(window, targets):
     window.fill('blue')
@@ -22,7 +25,12 @@ def draw(window, targets):
     for target in targets:
         target.draw(window)
 
-    pygame.display.update()
+
+def draw_top_bar(window, hits):
+    pygame.draw.rect(window, 'grey', (0, 0, WIDTH, TOP_BAR_HEIGHT))
+    hits = LABEL_FONT.render(f"Hits: {hits}", 1, "black")
+
+    window.blit(hits, (10, 5))
 
 def main():
     running = True
@@ -46,7 +54,7 @@ def main():
         
             if event.type == TARGET_EVENT:
                 x = random.randint(TARGET_LOC, WIDTH-TARGET_LOC)
-                y = random.randint(TARGET_LOC, HEIGHT-TARGET_LOC)
+                y = random.randint(TARGET_LOC + TOP_BAR_HEIGHT, HEIGHT-TARGET_LOC)
                 target = Target(x, y)
                 targets.append(target)
 
@@ -64,10 +72,13 @@ def main():
             
             if click and target.collide(*mouse_position):
                 targets.remove(target)
+                collide_sound = pygame.mixer.Sound('ding.mp3')
+                pygame.mixer.Sound.play(collide_sound)
                 target_pressed += 1
                 click = False
 
         draw(WINDOW, targets)
-
+        draw_top_bar(WINDOW, target_pressed)
+        pygame.display.update()
 
 main()
