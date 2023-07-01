@@ -1,8 +1,9 @@
 import pygame
+import math
 
 class Target:
     GROWTH_RATE = 0.8
-    MAX_SIZE = 60
+    MAX_SIZE = 50
     COLOR = 'red'
     SECONDARY_COLOR = 'white'
 
@@ -27,3 +28,8 @@ class Target:
         pygame.draw.circle(window, self.COLOR, (self.x_coord, self.y_coord), self.size*0.6)
         pygame.draw.circle(window, self.SECONDARY_COLOR, (self.x_coord, self.y_coord), self.size*0.4)
   
+
+    def collide(self, x, y):
+        distance = math.sqrt((self.x_coord-x)**2 + (self.y_coord-y)**2)
+        # print(f'Distace: {distance}, Size: {self.size}')
+        return distance <= self.size
