@@ -1,16 +1,8 @@
 import pygame
 
-# pygame.init()
-
-# WIDTH, HEIGHT = 800, 600
-
-# WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# pygame.display.set_caption("ARCHERY GAME!!! ")
-
 class Target:
     GROWTH_RATE = 0.8
-    MAX_SIZE = 30
+    MAX_SIZE = 60
     COLOR = 'red'
     SECONDARY_COLOR = 'white'
 
